@@ -121,11 +121,11 @@ function JobCards() {
     const { jobs, deleteJob, editJob, addJob, editingJob, setEditingJob } = useJobManager();
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [currentPage, setCurrentPage] = useState(1); // Add pagination state
-    const pageSize = 2; // Items per page
+    const pageSize = 6; // Items per page
 
     // Calculate current jobs to show
     const currentJobs = jobs.slice(
-        (currentPage.length) * pageSize,
+        (currentPage - 1) * pageSize,
         currentPage * pageSize
     );
 

@@ -1,6 +1,6 @@
 // EditJobModal.jsx (updated)
 import React, { useEffect } from "react";
-import { Modal, Form, Input } from "antd";
+import {Modal, Form, Input, InputNumber} from "antd";
 import { useJobManager } from "./JobManager.jsx";
 import EmployerComboBox from "./EmployerComboBox.jsx";
 
@@ -44,7 +44,10 @@ const EditJobModal = ({ open, onCancel, onOk, initialValues }) => {
                     label="Salary"
                     rules={[{ required: true, message: "Please input the salary!" }]}
                 >
-                    <Input />
+                    <InputNumber
+                        formatter={(value) => `₱${value === '' ? '' : value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+                        parser={(value) => value.replace(/\₱|,/g, '')}
+                    />
                 </Form.Item>
                 <Form.Item
                     name="employer_id"

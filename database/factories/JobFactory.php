@@ -17,7 +17,7 @@ class JobFactory extends Factory
         return [
             'title' => $this->faker->jobTitle(),
             'employer_id' => Employer::factory(),
-            'salary' => '$' . number_format($this->faker->numberBetween(100, 100000)),
+            'salary' => '₱' . number_format($this->faker->numberBetween(100, 100000)),
         ];
     }
 }

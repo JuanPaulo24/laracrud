@@ -2,14 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 
-import Index from "./Index.jsx";
+import Home from "./Home.jsx";
 
 
 export default function Routers() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Index />} />
+                <Route path="/" element={<Home />} />
             </Routes>
         </Router>
     );

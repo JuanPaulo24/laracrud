@@ -64,8 +64,8 @@ const AddJobModal = ({ open, onCancel, onOk }) => {
                     rules={[{ required: true, message: "Please input the salary!" }]}
                 >
                     <InputNumber
-                        formatter={(value) => `$${value === '' ? '' : value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-                        parser={(value) => value.replace(/\$|,/g, '')}
+                        formatter={(value) => `₱${value === '' ? '' : value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+                        parser={(value) => value.replace(/\₱|,/g, '')}
                     />
                 </Form.Item>
                 <Form.Item

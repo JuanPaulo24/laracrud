@@ -18,7 +18,7 @@ class CreateJobListingsTable extends Migration
             $table->id();
             $table->foreignIdFor(Employer::class);
             $table->string('title');
-            $table->string('salary');
+            $table->string('salary' );
             $table->text('image')->nullable();
             $table->timestamps();
         });

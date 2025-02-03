@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card, Button, Space, Modal, Pagination } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useJobManager } from "./JobManager.jsx";
 import EditJobModal from "./EditJobModal.jsx";
 import AddJobModal from "./AddJobModal.jsx";
 
-// Styled components
+
 const Layout = ({ children }) => (
     <div style={{
-        height: "80vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginTop: "20vh"
+        justifyContent: "center",
+        maxWidth: "1110px",
     }}>
         {children}
     </div>
@@ -20,12 +20,11 @@ const Layout = ({ children }) => (
 
 const CardContainer = ({ children }) => (
     <div style={{
-        maxWidth: "1200px",
         width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-        paddingBottom: "3rem"
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 350px)",
+        gap: "30px",
+        marginBottom: "3rem"
     }}>
         {children}
     </div>
@@ -33,10 +32,12 @@ const CardContainer = ({ children }) => (
 
 const StyledCard = ({ children }) => (
     <Card style={{
-        background: "white",
-        borderRadius: "20px",
+        backgroundColor: "#FFFFFF",
+        borderRadius: "6px",
         transition: "all 0.3s ease",
-        border: "2px solid #5CA5A5"
+        padding: "8px",
+        height: "240px",
+        position: "relative",
     }}>
         {children}
     </Card>
@@ -48,39 +49,40 @@ const AddButton = ({ onClick }) => (
         icon={<PlusOutlined />}
         onClick={onClick}
         style={{
-            backgroundColor: "#40cbb5",
-            borderColor: "#40cbb5",
-            marginBottom: "2rem"
+            backgroundColor: "#5964E0",
+            marginTop: "2rem",
+            marginBottom: "2rem",
+            width: "123px",
+            height: "48px",
+            borderRadius: "5px",
+            fontFamily: "Kumbh Sans",
+            fontWeight: "bold",
+            fontSize: "16px",
         }}
     >
         Add Job
     </Button>
 );
 
-// Single JobCard component definition
+
 const JobCard = ({ job, onEdit, onDelete }) => (
     <StyledCard>
-        <div style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "1rem"
-        }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+        <div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "17px" }}>
                 <h3 style={titleStyle}>{job.title}</h3>
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem"}}>
                     <span style={salaryStyle}>{job.salary}</span>
-                    <h4 style={{ margin: 0, fontSize: "0.9rem", fontWeight: 500 }}>
+                    <h4 style={{fontSize: "16px", fontWeight: "normal", fontFamily: "Kumbh Sans", color: "#6E8198"}}>
                         {job.employer?.name}
                     </h4>
                 </div>
             </div>
-            <Space>
+            <Space style={{position: "absolute", bottom: "32px"}}>
                 <Button
                     type="primary"
                     icon={<EditOutlined />}
                     onClick={() => onEdit(job)}
-                    style={{ backgroundColor: "#40cbb5", borderColor: "#40cbb5" }}
+                    style={{ backgroundColor: "#5964E0", fontFamily: "Kumbh Sans"}}
                 >
                     Edit
                 </Button>
@@ -88,6 +90,7 @@ const JobCard = ({ job, onEdit, onDelete }) => (
                     type="primary"
                     icon={<DeleteOutlined />}
                     onClick={() => onDelete(job.id)}
+                    style={{ fontFamily: "Kumbh Sans"}}
                     danger
                 >
                     Delete
@@ -97,26 +100,30 @@ const JobCard = ({ job, onEdit, onDelete }) => (
     </StyledCard>
 );
 
-// Style constants
+
 const titleStyle = {
-    fontSize: "1.25rem",
-    fontWeight: 600,
     margin: 0,
-    maxWidth: "9rem"
+    maxWidth: "255px",
+    fontStyle: "Kumbh Sans, sans-serif",
+    fontWeight: "bold",
+    fontSize: "20px",
 };
 
 const salaryStyle = {
-    color: "#40cbb5",
-    fontWeight: 600
+    color: "#5964E0",
+    fontWeight: 700,
+    fontFamily: "Kumbh Sans, sans-serif",
+    fontSize: "14px",
+
 };
 
 function JobCards() {
     const { jobs, deleteJob, editJob, addJob, editingJob, setEditingJob } = useJobManager();
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [currentPage, setCurrentPage] = useState(1); // Add pagination state
-    const pageSize = 2; // Items per page
+    const pageSize = 6; // Items per page
 
-    // Calculate current jobs to show
+
     const currentJobs = jobs.slice(
         (currentPage - 1) * pageSize,
         currentPage * pageSize
@@ -154,7 +161,7 @@ function JobCards() {
                 ))}
             </CardContainer>
 
-            {/* Add Pagination */}
+
             <div style={{
                 display: 'flex',
                 justifyContent: 'center',

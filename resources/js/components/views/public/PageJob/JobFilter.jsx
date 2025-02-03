@@ -1,4 +1,3 @@
-// JobFilters.js
 import React from 'react';
 import { Select, Button, Space, Typography } from 'antd';
 import { useJobManager } from './JobManager.jsx';

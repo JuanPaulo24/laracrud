@@ -2,7 +2,6 @@ import React from 'react';
 import { Select } from 'antd';
 import { useJobManager } from './JobManager.jsx';
 
-// EmployerComboBox.jsx
 const EmployerComboBox = ({ value, onChange }) => {
     const { employers = [], jobs = [] } = useJobManager();
 
@@ -27,7 +26,7 @@ const EmployerComboBox = ({ value, onChange }) => {
             {employerOptions.map(employer => (
                 <Select.Option
                     key={employer?.id}
-                    value={employer?.id} // Use ID as the value
+                    value={employer?.id}
                 >
                     {employer?.name || 'Untitled Employer'}
                 </Select.Option>

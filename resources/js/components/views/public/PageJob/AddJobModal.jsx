@@ -1,4 +1,3 @@
-// AddJobModal.jsx (updated with formatted salary input)
 import React from "react";
 import { Modal, Form, Input, InputNumber, Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
@@ -26,9 +25,9 @@ const AddJobModal = ({ open, onCancel, onOk }) => {
 
                 try {
                     await onOk(formData);
-                    form.resetFields(); // Clear form
-                    setFileList([]); // Reset file list
-                    onCancel(); // Close modal
+                    form.resetFields();
+                    setFileList([]);
+                    onCancel();
                 } catch (error) {
                     message.error(
                         error.response?.data?.message || "Failed to create job"
@@ -53,14 +52,14 @@ const AddJobModal = ({ open, onCancel, onOk }) => {
             <Form form={form} layout="vertical">
                 <Form.Item
                     name="title"
-                    label="Job Title"
+                    htmlFor="Job Title"
                     rules={[{ required: true, message: "Please input the job title!" }]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
                     name="salary"
-                    label="Salary"
+                    htmlFor="Salary"
                     rules={[{ required: true, message: "Please input the salary!" }]}
                 >
                     <InputNumber
@@ -70,14 +69,14 @@ const AddJobModal = ({ open, onCancel, onOk }) => {
                 </Form.Item>
                 <Form.Item
                     name="employer_id"
-                    label="Employer"
+                    htmlFor="Employer"
                     rules={[{ required: true, message: "Please select an employer!" }]}
                 >
                     <EmployerComboBox />
                 </Form.Item>
                 <Form.Item
                     name="image"
-                    label="Job Image"
+                    htmlFor="Job Image"
                     valuePropName="fileList"
                     getValueFromEvent={(e) => {
                         if (Array.isArray(e)) return e;

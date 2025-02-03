@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card, Button, Space, Modal, Pagination } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useJobManager } from "./JobManager.jsx";
 import EditJobModal from "./EditJobModal.jsx";
 import AddJobModal from "./AddJobModal.jsx";
 
-// Styled components
+
 const Layout = ({ children }) => (
     <div style={{
         display: "flex",
@@ -64,7 +64,7 @@ const AddButton = ({ onClick }) => (
     </Button>
 );
 
-// Single JobCard component definition
+
 const JobCard = ({ job, onEdit, onDelete }) => (
     <StyledCard>
         <div>
@@ -100,7 +100,7 @@ const JobCard = ({ job, onEdit, onDelete }) => (
     </StyledCard>
 );
 
-// Style constants
+
 const titleStyle = {
     margin: 0,
     maxWidth: "255px",
@@ -123,7 +123,7 @@ function JobCards() {
     const [currentPage, setCurrentPage] = useState(1); // Add pagination state
     const pageSize = 6; // Items per page
 
-    // Calculate current jobs to show
+
     const currentJobs = jobs.slice(
         (currentPage - 1) * pageSize,
         currentPage * pageSize
@@ -161,7 +161,7 @@ function JobCards() {
                 ))}
             </CardContainer>
 
-            {/* Add Pagination */}
+
             <div style={{
                 display: 'flex',
                 justifyContent: 'center',

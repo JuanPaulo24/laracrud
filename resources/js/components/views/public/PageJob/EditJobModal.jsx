@@ -6,7 +6,7 @@ import EmployerComboBox from "./EmployerComboBox.jsx";
 
 const EditJobModal = ({ open, onCancel, onOk, initialValues }) => {
     const [form] = Form.useForm();
-    const { employers = [] } = useJobManager(); // Default empty array
+    const { employers = [] } = useJobManager();
 
     useEffect(() => {
         if (initialValues) {
@@ -19,7 +19,7 @@ const EditJobModal = ({ open, onCancel, onOk, initialValues }) => {
             .validateFields()
             .then((values) => {
                 onOk({
-                    ...initialValues, // Use initialValues from props
+                    ...initialValues,
                     ...values
                 });
                 form.resetFields();

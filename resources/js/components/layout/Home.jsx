@@ -1,5 +1,4 @@
-import React from "react";
-import JobCards from "./JobCards.jsx";
+import JobCards from "../views/public/PageJob/JobCards.jsx";
 
 export default function Home() {
     return (

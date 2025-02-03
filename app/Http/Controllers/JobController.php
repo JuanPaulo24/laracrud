@@ -45,18 +45,22 @@ class JobController extends Controller
                 $imagePath = request()->file('image')->store('jobs', 'public');
             }
 
+
+            $salary = $validated['salary'];
+            $formattedSalary = str_starts_with($salary, '₱') ? $salary : '₱' . number_format($salary, 0);
+
             $job = Job::create([
                 'title' => $validated['title'],
-                'salary' => $validated['salary'],
+                'salary' => $formattedSalary,
                 'employer_id' => $validated['employer_id'],
                 'image' => $imagePath
             ]);
 
-//            Mail::to('juan@gmail.com')->queue(          //instead of send we can use queue, and make sure you use php artisan queue work
-//                new JobPosted($job)
-//            );
+            Mail::to('juan@gmail.com')->queue(          //instead of send we can use queue, and make sure you use php artisan queue work
+                new JobPosted($job)
+            );
 
-            Mail::to('juan@gmail.com')->send(new JobPosted($job));
+//            Mail::to('juan@gmail.com')->send(new JobPosted($job));
 
             return response()->json([
                 'message' => 'Job created successfully',

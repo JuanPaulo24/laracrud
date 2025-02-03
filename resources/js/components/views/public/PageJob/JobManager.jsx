@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const useJobManager = () => {
     const [jobs, setJobs] = useState([]);
-    const [editingJob, setEditingJob] = useState(null); // Should be null initially
+    const [editingJob, setEditingJob] = useState(null);
     const [employers, setEmployers] = useState([]);
 
 
@@ -12,10 +12,10 @@ export const useJobManager = () => {
     const fetchEmployers = async () => {
         try {
             const response = await axios.get('/api/employers');
-            setEmployers(response.data.employers || []); // Add fallback to empty array
+            setEmployers(response.data.employers || []);
         } catch (error) {
             console.error('Error fetching employers:', error);
-            setEmployers([]); // Ensure employers is always an array
+            setEmployers([]);
         }
     };
 
@@ -32,7 +32,7 @@ export const useJobManager = () => {
     // Initial fetch
     useEffect(() => {
         refetchJobs();
-        fetchEmployers(); // Fetch employers on mount
+        fetchEmployers();
     }, []);
 
     // Delete job
@@ -68,7 +68,7 @@ export const useJobManager = () => {
             await refetchJobs();
         } catch (error) {
             console.error("Error adding job:", error);
-            throw error; // Rethrow to handle in the modal
+            throw error;
         }
     };
 

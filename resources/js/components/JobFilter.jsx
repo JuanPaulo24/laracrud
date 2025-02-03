@@ -1,7 +1,5 @@
-// JobFilters.js
-import React from 'react';
 import { Select, Button, Space, Typography } from 'antd';
-import { useJobManager } from './views/private/JobPage/JobManager.jsx';
+import { useJobManager } from './views/private/PageJob/JobManager.jsx';
 
 const { Text } = Typography;
 

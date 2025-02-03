@@ -1,5 +1,6 @@
 // EditJobModal.jsx (updated)
-import React, { useEffect } from "react";
+import React from "react";
+import { useEffect } from "react";
 import {Modal, Form, Input, InputNumber} from "antd";
 import { useJobManager } from "./JobManager.jsx";
 import EmployerComboBox from "./EmployerComboBox.jsx";

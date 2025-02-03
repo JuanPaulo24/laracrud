@@ -1,9 +1,6 @@
-import React from "react";
-
 function Content() {
     return (
-        <div className="flex justify-between w-screen px-16">
-            {/* Left LandingPage */}
+        <div className="flex justify-between w-screen px-16 mx-auto container">
             <div className="max-w-xl pt-14">
                 <h1 className="text-4xl font-bold text-indigo-900 sm:text-5xl lg:text-6xl tracking-wide">
                     BUSINESS
@@ -15,16 +12,15 @@ function Content() {
                     tineidunt i laoreet delore.
                 </p>
                 <div className="mt-8">
-                    <button className="w-[150px] bg-gradient-to-r from-indigo-700 to-blue-300 text-white tracking-widest px-6 py-2 rounded-full text-sm font-bold shadow-md hover:from-indigo-800 hover:to-blue-400 transition-all">
+                    <button className="w-[150px] bg-gradient-to-r from-indigo-700 to-blue-300 text-white tracking-widest px-6 py-2 rounded-full text-sm font-bold shadow-md cursor-pointer">
                         More Info
                     </button>
                 </div>
             </div>
 
-            {/* Right LandingPage - Illustration */}
             <div className="hidden lg:block pt-14 pr-16 z-10">
                 <img
-                    src="/images/png/content-image.png"
+                    src="/images/content-image.png"
                     alt="Business team collaboration"
                     className="w-[550px] object-contain"
                 />

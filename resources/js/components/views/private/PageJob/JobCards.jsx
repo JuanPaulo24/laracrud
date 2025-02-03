@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card, Button, Space, Modal, Pagination } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useJobManager } from "./JobManager.jsx";
 import EditJobModal from "./EditJobModal.jsx";
 import AddJobModal from "./AddJobModal.jsx";
+import Navbar from "@/components/Navbar.jsx";
 
 // Styled components
 const Layout = ({ children }) => (
@@ -41,6 +42,7 @@ const StyledCard = ({ children }) => (
     }}>
         {children}
     </Card>
+
 );
 
 const AddButton = ({ onClick }) => (

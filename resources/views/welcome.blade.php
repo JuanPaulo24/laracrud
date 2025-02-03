@@ -13,6 +13,9 @@
         <!-- Styles / Scripts -->
         @viteReactRefresh
         @vite(['resources/js/app.jsx', 'resources/css/app.css'])
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
+    </style>
     </head>
     <body>
         <div id="app"></div>

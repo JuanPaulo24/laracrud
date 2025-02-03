@@ -1,14 +1,12 @@
-import React from "react";
-import JobCards from "../views/private/JobPage/JobCards.jsx";
+import JobCards from "../views/private/PageJob/JobCards.jsx";
 import Navbar from "../Navbar.jsx"
-import Content from "../Content.jsx"
+import Content from "@/components/Content.jsx";
 
 export default function Home() {
     return (
         <div className="flex flex-col items-center">
-            {/*<Navbar/>*/}
+            <Navbar/>
             <Content/>
-
         </div>
     )
 }

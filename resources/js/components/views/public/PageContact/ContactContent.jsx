@@ -1,18 +1,4 @@
-/*
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-export default function Example() {
+export default function ContactContent() {
     return (
         <div className="relative isolate px-6 py-8 mb-12">
             <div className="mx-auto max-w-xl lg:max-w-4xl">

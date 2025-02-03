@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 
-import Home from "./Home.jsx";
+import Home from "../layouts/Home.jsx";
 
 
 export default function Routers() {

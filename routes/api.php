@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('jobs', JobController::class);
+
+
 Route::apiResource('employers', EmployerController::class);
 
 Route::get('/user', function (Request $request) {

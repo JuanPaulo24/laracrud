@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card, Button, Space, Modal, Pagination } from "antd";
-import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, PlusOutlined, InboxOutlined } from "@ant-design/icons";
 import { useJobManager } from "./JobManager.jsx";
 import EditJobModal from "./EditJobModal.jsx";
 import AddJobModal from "./AddJobModal.jsx";
@@ -66,6 +66,27 @@ const AddButton = ({ onClick }) => (
     </Button>
 );
 
+const ArchiveButton = ({ onClick }) => (
+    <Button
+        type="primary"
+        icon={<InboxOutlined />}
+        onClick={onClick}
+        style={{
+            backgroundColor: "#5964E0",
+            marginTop: "2rem",
+            marginBottom: "2rem",
+            width: "123px",
+            height: "48px",
+            borderRadius: "5px",
+            fontFamily: "Kumbh Sans",
+            fontWeight: "bold",
+            fontSize: "16px",
+        }}
+    >
+        Archive Job
+    </Button>
+);
+
 // Single JobCard component definition
 const JobCard = ({ job, onEdit, onDelete }) => (
     <StyledCard>
@@ -96,6 +117,14 @@ const JobCard = ({ job, onEdit, onDelete }) => (
                     danger
                 >
                     Delete
+                </Button>
+                <Button
+                    type="primary"
+                    icon={<InboxOutlined />}
+                    onClick={() => onArchive(job.id)}
+                    style={{ fontFamily: "Kumbh Sans"}}
+                >
+                    Archive
                 </Button>
             </Space>
         </div>
@@ -151,6 +180,7 @@ function JobCards() {
     return (
         <Layout>
             <AddButton onClick={() => setIsAddModalVisible(true)} />
+            <ArchiveButton onClick={() => setIsAddModalVisible(true)} />
 
             <CardContainer>
                 {currentJobs.map((job) => ( // Changed from jobs to currentJobs

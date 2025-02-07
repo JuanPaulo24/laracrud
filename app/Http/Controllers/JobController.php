@@ -15,13 +15,27 @@ class JobController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $jobs = Job::with('employer')->latest()->get();
+        $jobs = Job::with('employer');
+
+        if ($request->query('only_trashed', false)) {
+            $jobs = $jobs->onlyTrashed();
+        }
+
+        $jobs = $jobs->get();
 
         return response()->json([
             'jobs' => $jobs
         ]);
+    }
+
+    public function restore($id)
+    {
+        $job = Job::withTrashed()->find($id);
+        $job->restore();
+
+        return response()->json(['message' => 'Job restored successfully']);
     }
 
     /**
@@ -128,4 +142,5 @@ class JobController extends Controller
     {
         $job->delete();
     }
+
 }

@@ -21,6 +21,7 @@ class CreateJobListingsTable extends Migration
             $table->string('salary');
             $table->text('image')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -32,5 +33,8 @@ class CreateJobListingsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('job_listings');
+        Schema::table('job_listings', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

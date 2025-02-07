@@ -1,13 +1,13 @@
-import { Select, Button, Space, Typography } from 'antd';
-import { useJobManager } from './views/private/PageJob/JobManager.jsx';
+import {Select, Button, Space, Typography} from 'antd';
+import {useJobManager} from './views/private/PageJob/JobManager.jsx';
 
-const { Text } = Typography;
+const {Text} = Typography;
 
 const priceRanges = [
-    { label: '$10-$100', value: '10-100' },
-    { label: '$100-$1000', value: '100-1000' },
-    { label: '$1000-$5000', value: '1000-5000' },
-    { label: '$5000+', value: '5000-plus' },
+    {label: '$10-$100', value: '10-100'},
+    {label: '$100-$1000', value: '100-1000'},
+    {label: '$1000-$5000', value: '1000-5000'},
+    {label: '$5000+', value: '5000-plus'},
 ];
 
 const JobFilters = ({
@@ -17,14 +17,14 @@ const JobFilters = ({
                         onEmployersChange,
                         onClearFilters
                     }) => {
-    const { employers = [] } = useJobManager();
+    const {employers = []} = useJobManager();
 
     return (
-        <Space direction="vertical" style={{ width: '100%', marginBottom: '1rem' }}>
+        <Space direction="vertical" style={{width: '100%', marginBottom: '1rem'}}>
             <Space>
                 <Select
                     placeholder="Filter by Price Range"
-                    style={{ width: 200 }}
+                    style={{width: 200}}
                     value={selectedPriceRange}
                     onChange={onPriceRangeChange}
                     options={priceRanges}
@@ -34,7 +34,7 @@ const JobFilters = ({
                 <Select
                     mode="multiple"
                     placeholder="Filter by Employer"
-                    style={{ width: 300 }}
+                    style={{width: 300}}
                     value={selectedEmployers}
                     onChange={onEmployersChange}
                     options={employers.map(employer => ({

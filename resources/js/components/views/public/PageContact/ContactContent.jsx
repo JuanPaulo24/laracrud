@@ -1,6 +1,6 @@
 export default function ContactContent() {
     return (
-        <div className="relative isolate px-6 py-8 mb-12">
+        <div className="relative isolate px-6 py-8 mb-12 md:py-20">
             <div className="mx-auto max-w-xl lg:max-w-4xl">
                 <h2 className="text-4xl font-bold tracking-tight text-gray-900">Let’s talk about your project</h2>
                 <p className="mt-2 text-lg leading-8 text-gray-600">

@@ -5,12 +5,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 //If you have a Table named comments, your eloquent model should be named Comment.
 // You can test using Tinker in Creation:  App\Models\Job::create(['title' =>  'Acme  Director', 'salary' => '$50,000,000']);
 // In Finding using Tinker command: App\Models\Job::find(5);
 // To delete job if its only one row, you can use example: App\Models\Job::delete;
 class Job extends Model {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
 
     protected $table = 'job_listings';

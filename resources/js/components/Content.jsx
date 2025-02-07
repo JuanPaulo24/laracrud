@@ -1,14 +1,14 @@
 function Content() {
     return (
         <div className="flex justify-between w-screen px-16 mx-auto container">
-            <div className="max-w-xl pt-14">
+            <div className="max-w-xl pt-14 md:pt-40">
                 <h1 className="text-4xl font-bold text-indigo-900 sm:text-5xl lg:text-6xl tracking-wide">
                     BUSINESS
                     <br />
                     LANDING PAGE
                 </h1>
                 <p className="mt-6 text-lg leading-5 text-indigo-950 w-[300px] tracking-wide">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do diam nanummy aibh suismed
+                    Hello ipsum dolor sit amet, consectetur adipiscing elit, sed do diam nanummy aibh suismed
                     tineidunt i laoreet delore.
                 </p>
                 <div className="mt-8">
@@ -18,7 +18,7 @@ function Content() {
                 </div>
             </div>
 
-            <div className="hidden lg:block pt-14 pr-16 z-10">
+            <div className="hidden lg:block pt-14 pr-16 z-10 md:pt-40">
                 <img
                     src="/images/content-image.png"
                     alt="Business team collaboration"

@@ -17,7 +17,7 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
-        $jobs = Job::with('employer');
+        $jobs = Job::with('employer')->latest();
 
         if ($request->query('only_trashed', false)) {
             $jobs = $jobs->onlyTrashed();

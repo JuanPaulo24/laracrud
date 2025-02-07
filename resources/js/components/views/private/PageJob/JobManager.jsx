@@ -6,8 +6,6 @@ export const useJobManager = () => {
     const [editingJob, setEditingJob] = useState(null); // Should be null initially
     const [employers, setEmployers] = useState([]);
 
-
-
     // Get All Employers
     const fetchEmployers = async () => {
         try {
@@ -23,6 +21,16 @@ export const useJobManager = () => {
     const refetchJobs = async () => {
         try {
             const response = await axios.get('/api/jobs');
+            setJobs(response.data.jobs);
+        } catch (error) {
+            console.error('Error fetching jobs:', error);
+        }
+    };
+
+//   /api/jobs?only_trashed=1
+    const refetchArchivedJobs = async () => {
+        try {
+            const response = await axios.get('/api/jobs?only_trashed=1');
             setJobs(response.data.jobs);
         } catch (error) {
             console.error('Error fetching jobs:', error);
@@ -72,11 +80,14 @@ export const useJobManager = () => {
         }
     };
 
+
     return {
         jobs,
         deleteJob,
         editJob,
         addJob,
+        refetchArchivedJobs,
+        refetchJobs,
         employers,
         editingJob,
         setEditingJob

@@ -46,7 +46,13 @@ const EditJobModal = ({ open, onCancel, onOk, initialValues }) => {
                     rules={[{ required: true, message: "Please input the salary!" }]}
                 >
                     <InputNumber
-                        formatter={(value) => `₱${value === '' ? '' : value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+                        formatter={(value) => {
+                            // Check if the value already starts with ₱
+                            if (value.startsWith('₱')) {
+                                return value;
+                            }
+                            return `₱${value === '' ? '' : value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+                        }}
                         parser={(value) => value.replace(/\₱|,/g, '')}
                     />
                 </Form.Item>

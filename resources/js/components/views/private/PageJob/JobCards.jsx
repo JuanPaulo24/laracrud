@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Button, Space, Modal, Pagination } from "antd";
-import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, PlusOutlined, EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { useJobManager } from "./JobManager.jsx";
 import EditJobModal from "./EditJobModal.jsx";
 import AddJobModal from "./AddJobModal.jsx";
@@ -52,7 +52,6 @@ const AddButton = ({ onClick }) => (
             backgroundColor: "#5964E0",
             marginTop: "2rem",
             marginBottom: "2rem",
-            width: "123px",
             height: "48px",
             borderRadius: "5px",
             fontFamily: "Kumbh Sans",
@@ -61,6 +60,25 @@ const AddButton = ({ onClick }) => (
         }}
     >
         Add Job
+    </Button>
+);
+const ArchiveButton = ({ onClick, isArchived }) => (
+    <Button
+        type="primary"
+        icon={isArchived ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+        onClick={onClick}
+        style={{
+            backgroundColor: "#5964E0",
+            marginTop: "2rem",
+            marginBottom: "2rem",
+            height: "48px",
+            borderRadius: "5px",
+            fontFamily: "Kumbh Sans",
+            fontWeight: "bold",
+            fontSize: "16px",
+        }}
+    >
+        {isArchived ? "Hide Archive" : "Show Archive"}
     </Button>
 );
 
@@ -118,9 +136,10 @@ const salaryStyle = {
 };
 
 function JobCards() {
-    const { jobs, deleteJob, editJob, addJob, editingJob, setEditingJob } = useJobManager();
+    const { jobs, deleteJob, editJob, addJob, editingJob, setEditingJob, refetchJobs, refetchArchivedJobs } = useJobManager();
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [currentPage, setCurrentPage] = useState(1); // Add pagination state
+    const [isArchived, setIsArchived] = useState(false);
     const pageSize = 6; // Items per page
 
     // Calculate current jobs to show
@@ -128,6 +147,15 @@ function JobCards() {
         (currentPage - 1) * pageSize,
         currentPage * pageSize
     );
+
+    const toggleArchive = () => {
+        if (isArchived) {
+            refetchJobs; // Switch back to active jobs
+        } else {
+            refetchArchivedJobs(); // Fetch archived jobs
+        }
+        setIsArchived(!isArchived);
+    };
 
     const handleEdit = (job) => setEditingJob(job);
 
@@ -148,7 +176,11 @@ function JobCards() {
 
     return (
         <Layout>
-            <AddButton onClick={() => setIsAddModalVisible(true)} />
+
+            <div className="flex gap-4">
+                <AddButton onClick={() => setIsAddModalVisible(true)} />
+                <ArchiveButton onClick={toggleArchive} isArchived={isArchived} />
+            </div>
 
             <CardContainer>
                 {currentJobs.map((job) => ( // Changed from jobs to currentJobs

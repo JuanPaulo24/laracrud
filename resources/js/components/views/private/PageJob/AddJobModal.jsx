@@ -14,6 +14,10 @@ const AddJobModal = ({ open, onCancel, onOk }) => {
         form
             .validateFields()
             .then(async (values) => {
+                if (values.salary && !String(values.salary).startsWith('₱')) {
+                    values.salary = `₱${String(values.salary).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+                }
+
                 const formData = new FormData();
                 formData.append("title", values.title);
                 formData.append("salary", values.salary);

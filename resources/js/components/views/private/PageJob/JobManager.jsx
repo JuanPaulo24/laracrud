@@ -74,6 +74,7 @@ export const useJobManager = () => {
                 }
             });
             await refetchJobs();
+            console.log(jobs);
         } catch (error) {
             console.error("Error adding job:", error);
             throw error; // Rethrow to handle in the modal

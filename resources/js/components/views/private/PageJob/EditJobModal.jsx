@@ -19,10 +19,14 @@ const EditJobModal = ({ open, onCancel, onOk, initialValues }) => {
         form
             .validateFields()
             .then((values) => {
+                if (values.salary && !String(values.salary).startsWith('₱')) {
+                    values.salary = `₱${String(values.salary).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+                }
                 onOk({
                     ...initialValues, // Use initialValues from props
                     ...values
                 });
+                console.log(values.salary);
                 form.resetFields();
             })
             .catch((error) => {

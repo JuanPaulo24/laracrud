@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Card, Button, Space, Modal, Pagination } from "antd";
-import { EditOutlined, DeleteOutlined, PlusOutlined, EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { Card, Space, Modal, Pagination } from "antd";
+import { EditOutlined, DeleteOutlined, PlusOutlined} from "@ant-design/icons";
 import { useJobManager } from "./JobManager.jsx";
 import EditJobModal from "./EditJobModal.jsx";
 import AddJobModal from "./AddJobModal.jsx";
+import { PrimaryButton } from "./Assets/PrimaryButton.jsx";
 
 // Styled components
 const Layout = ({ children }) => (
@@ -44,8 +45,7 @@ const StyledCard = ({ children }) => (
 );
 
 const AddButton = ({ onClick }) => (
-    <Button
-        type="primary"
+    <PrimaryButton
         icon={<PlusOutlined />}
         onClick={onClick}
         style={{
@@ -54,18 +54,14 @@ const AddButton = ({ onClick }) => (
             marginBottom: "2rem",
             height: "48px",
             borderRadius: "5px",
-            fontFamily: "Kumbh Sans",
-            fontWeight: "bold",
             fontSize: "16px",
         }}
     >
         Add Job
-    </Button>
+    </PrimaryButton>
 );
 const ArchiveButton = ({ onClick, isArchived }) => (
-    <Button
-        type="primary"
-        icon={isArchived ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+    <PrimaryButton
         onClick={onClick}
         style={{
             backgroundColor: "#5964E0",
@@ -73,13 +69,11 @@ const ArchiveButton = ({ onClick, isArchived }) => (
             marginBottom: "2rem",
             height: "48px",
             borderRadius: "5px",
-            fontFamily: "Kumbh Sans",
-            fontWeight: "bold",
             fontSize: "16px",
         }}
     >
-        {isArchived ? "Hide Archive" : "Show Archive"}
-    </Button>
+        {isArchived ? "Show Active" : "Show Archive"}
+    </PrimaryButton>
 );
 
 // Single JobCard component definition
@@ -97,39 +91,48 @@ const JobCard = ({ job, onEdit, onDelete, onRestore }) => (
             </div>
             <Space style={{position: "absolute", bottom: "32px"}}>
                 {job.deleted_at ? (
-                    <Button
-                        type="primary"
+                    <PrimaryButton
                         onClick={() => onRestore(job.id)}
-                        style={{ backgroundColor: "#5964E0", fontFamily: "Kumbh Sans"}}
+                        style={{ backgroundColor: "#5964E0" }}
                     >
                         Restore
-                    </Button>
+                    </PrimaryButton>
                 ) : (
                     <>
-                        <Button
-                            type="primary"
+                        <PrimaryButton
                             icon={<EditOutlined />}
                             onClick={() => onEdit(job)}
-                            style={{ backgroundColor: "#5964E0", fontFamily: "Kumbh Sans"}}
+                            style={{ backgroundColor: "#5964E0" }}
                         >
                             Edit
-                        </Button>
-                        <Button
-                            type="primary"
+                        </PrimaryButton>
+
+                        <PrimaryButton
                             icon={<DeleteOutlined />}
                             onClick={() => onDelete(job.id)}
-                            style={{ fontFamily: "Kumbh Sans"}}
                             danger
                         >
                             Delete
-                        </Button>
+                        </PrimaryButton>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.10rem' }}>
+                            <img
+                                src={`/storage/${job.image}`}
+                                alt="Job image"
+                                style={{
+                                    width: '30px',
+                                    height: '30px',
+                                    borderRadius: '6px',
+                                    objectFit: 'cover',
+                                    marginRight: '0.5rem'
+                                }}
+                            />
+                        </div>
                     </>
                 )}
             </Space>
         </div>
     </StyledCard>
 );
-
 // Style constants
 const titleStyle = {
     margin: 0,

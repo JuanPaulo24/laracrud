@@ -14,10 +14,14 @@ class JobFactory extends Factory
      */
     public function definition()
     {
+        $title = $this->faker->jobTitle();
+        $title = substr($title, 0, 50); // Limit the title to 50 characters
+
         return [
-            'title' => $this->faker->jobTitle(),
+            'title' => $title,
             'employer_id' => Employer::factory(),
             'salary' => '₱' . number_format($this->faker->numberBetween(100, 100000)),
+            'image' => '/jobs/noImage.png', // Generate a static image path
         ];
     }
 }

@@ -1,7 +1,6 @@
 // EditJobModal.jsx (updated)
-import React from "react";
-import { useEffect } from "react";
-import {Modal, Form, Input, InputNumber} from "antd";
+import React, { useEffect } from "react";
+import { Modal, Form, Input } from "antd";
 import { useJobManager } from "./JobManager.jsx";
 import EmployerComboBox from "./EmployerComboBox.jsx";
 
@@ -19,14 +18,10 @@ const EditJobModal = ({ open, onCancel, onOk, initialValues }) => {
         form
             .validateFields()
             .then((values) => {
-                if (values.salary && !String(values.salary).startsWith('₱')) {
-                    values.salary = `₱${String(values.salary).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
-                }
                 onOk({
                     ...initialValues, // Use initialValues from props
                     ...values
                 });
-                console.log(values.salary);
                 form.resetFields();
             })
             .catch((error) => {
@@ -49,16 +44,7 @@ const EditJobModal = ({ open, onCancel, onOk, initialValues }) => {
                     label="Salary"
                     rules={[{ required: true, message: "Please input the salary!" }]}
                 >
-                    <InputNumber
-                        formatter={(value) => {
-                            // Check if the value already starts with ₱
-                            if (value.startsWith('₱')) {
-                                return value;
-                            }
-                            return `₱${value === '' ? '' : value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
-                        }}
-                        parser={(value) => value.replace(/\₱|,/g, '')}
-                    />
+                    <Input />
                 </Form.Item>
                 <Form.Item
                     name="employer_id"

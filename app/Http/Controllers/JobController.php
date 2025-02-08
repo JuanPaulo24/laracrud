@@ -17,16 +17,14 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
-        $jobs = Job::with('employer')->latest();
+       $jobs = Job::with('employer')->latest();
 
         if ($request->query('only_trashed', false)) {
-            $jobs = $jobs->onlyTrashed();
+            $jobs->onlyTrashed();
         }
 
-        $jobs = $jobs->get();
-
         return response()->json([
-            'jobs' => $jobs
+            'jobs' => $jobs->get()
         ]);
     }
 
@@ -66,11 +64,11 @@ class JobController extends Controller
                 'image' => $imagePath
             ]);
 
-//            Mail::to('juan@gmail.com')->queue(          //instead of send we can use queue, and make sure you use php artisan queue work
-//                new JobPosted($job)
-//            );
+            Mail::to('juan@gmail.com')->queue(          //instead of send we can use queue, and make sure you use php artisan queue work
+                new JobPosted($job)
+            );
 
-            Mail::to('juan@gmail.com')->send(new JobPosted($job));
+           // Mail::to('juan@gmail.com')->send(new JobPosted($job));
 
             return response()->json([
                 'message' => 'Job created successfully',
@@ -116,13 +114,20 @@ class JobController extends Controller
         request()->validate([
             'title'  => ['required', 'min:3'],
             'salary' => ['required'],
-            'employer_id' => ['exists:employers,id']
+            'employer_id' => ['exists:employers,id'],
+//            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,svg,webp', 'max:20000']
         ]);
+
+//        $imagePath = null;
+//        if (request()->hasFile('image')) {
+//            $imagePath = request()->file('image')->store('jobs', 'public');
+//        }
 
         $job->update([
             'title'  => request('title'),
             'salary' => request('salary'),
-            'employer_id' => request('employer_id')
+            'employer_id' => request('employer_id'),
+//            'image' => $imagePath
         ]);
 
         return response()->json([

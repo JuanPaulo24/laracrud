@@ -15,7 +15,7 @@ class EmployerController extends Controller
      */
     public function index()
     {
-        $employers = Employer::all();
+        $employers = Employer::query()->get();
 
         return response()->json([
             'employers' => $employers

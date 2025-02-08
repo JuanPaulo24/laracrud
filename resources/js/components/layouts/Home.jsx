@@ -1,6 +1,6 @@
 import JobCards from "../views/private/PageJob/JobCards.jsx";
 import Navbar from "../Navbar.jsx"
-import Content from "@/components/Content.jsx";
+import Content from "../Content.jsx";
 
 export default function Home() {
     return (

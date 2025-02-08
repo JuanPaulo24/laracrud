@@ -80,12 +80,22 @@ export const useJobManager = () => {
         }
     };
 
+    const restoreJob = async (jobId) => {
+        try {
+            await axios.patch(`/api/jobs/${jobId}/restore`);
+            await refetchArchivedJobs();  // Refresh list after restore
+        } catch (error) {
+            console.error("Error restoring job:", error);
+        }
+    };
+
 
     return {
         jobs,
         deleteJob,
         editJob,
         addJob,
+        restoreJob,
         refetchArchivedJobs,
         refetchJobs,
         employers,

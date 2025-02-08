@@ -83,7 +83,7 @@ const ArchiveButton = ({ onClick, isArchived }) => (
 );
 
 // Single JobCard component definition
-const JobCard = ({ job, onEdit, onDelete }) => (
+const JobCard = ({ job, onEdit, onDelete, onRestore }) => (
     <StyledCard>
         <div>
             <div style={{ display: "flex", flexDirection: "column", gap: "17px" }}>
@@ -96,23 +96,35 @@ const JobCard = ({ job, onEdit, onDelete }) => (
                 </div>
             </div>
             <Space style={{position: "absolute", bottom: "32px"}}>
-                <Button
-                    type="primary"
-                    icon={<EditOutlined />}
-                    onClick={() => onEdit(job)}
-                    style={{ backgroundColor: "#5964E0", fontFamily: "Kumbh Sans"}}
-                >
-                    Edit
-                </Button>
-                <Button
-                    type="primary"
-                    icon={<DeleteOutlined />}
-                    onClick={() => onDelete(job.id)}
-                    style={{ fontFamily: "Kumbh Sans"}}
-                    danger
-                >
-                    Delete
-                </Button>
+                {job.deleted_at ? (
+                    <Button
+                        type="primary"
+                        onClick={() => onRestore(job.id)}
+                        style={{ backgroundColor: "#5964E0", fontFamily: "Kumbh Sans"}}
+                    >
+                        Restore
+                    </Button>
+                ) : (
+                    <>
+                        <Button
+                            type="primary"
+                            icon={<EditOutlined />}
+                            onClick={() => onEdit(job)}
+                            style={{ backgroundColor: "#5964E0", fontFamily: "Kumbh Sans"}}
+                        >
+                            Edit
+                        </Button>
+                        <Button
+                            type="primary"
+                            icon={<DeleteOutlined />}
+                            onClick={() => onDelete(job.id)}
+                            style={{ fontFamily: "Kumbh Sans"}}
+                            danger
+                        >
+                            Delete
+                        </Button>
+                    </>
+                )}
             </Space>
         </div>
     </StyledCard>
@@ -136,7 +148,7 @@ const salaryStyle = {
 };
 
 function JobCards() {
-    const { jobs, deleteJob, editJob, addJob, editingJob, setEditingJob, refetchJobs, refetchArchivedJobs } = useJobManager();
+    const { jobs, deleteJob, editJob, addJob, restoreJob, editingJob, setEditingJob, refetchJobs, refetchArchivedJobs } = useJobManager();
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [currentPage, setCurrentPage] = useState(1); // Add pagination state
     const [isArchived, setIsArchived] = useState(false);
@@ -150,7 +162,8 @@ function JobCards() {
 
     const toggleArchive = () => {
         if (isArchived) {
-            refetchJobs; // Switch back to active jobs
+            refetchJobs(); // Switch back to active jobs
+            console.log("Fetch active jobs");
         } else {
             refetchArchivedJobs(); // Fetch archived jobs
         }
@@ -169,10 +182,21 @@ function JobCards() {
             onOk: () => deleteJob(jobId)
         });
     };
+
+    const handleRestore = (jobId) => {
+        Modal.confirm({
+            title: "Are you sure you want to restore this job?",
+            okText: "Yes",
+            cancelText: "No",
+            onOk: () => restoreJob(jobId)
+        });
+    };
+
     const handleAddJob = (newJob) => {
         addJob(newJob);
         setIsAddModalVisible(false);
     };
+
 
     return (
         <Layout>
@@ -189,6 +213,7 @@ function JobCards() {
                         job={job}
                         onEdit={handleEdit}
                         onDelete={handleDelete}
+                        onRestore={handleRestore}
                     />
                 ))}
             </CardContainer>

@@ -1,16 +1,28 @@
-// EditJobModal.jsx (updated)
 import React, { useEffect } from "react";
 import { Modal, Form, Input } from "antd";
 import { useJobManager } from "./JobManager.jsx";
 import EmployerComboBox from "./EmployerComboBox.jsx";
+import AvatarUpload from "./AvatarUpload.jsx";
 
 const EditJobModal = ({ open, onCancel, onOk, initialValues }) => {
     const [form] = Form.useForm();
-    const { employers = [] } = useJobManager(); // Default empty array
+    const { employers = [] } = useJobManager();
 
     useEffect(() => {
         if (initialValues) {
-            form.setFieldsValue(initialValues);
+            // Transform image for Ant Design Upload component
+            const fileList = initialValues.image ? [{
+                uid: '-1',
+                name: 'current-image',
+                status: 'done',
+                url: initialValues.image,
+                thumbUrl: initialValues.image,
+            }] : [];
+
+            form.setFieldsValue({
+                ...initialValues,
+                image: fileList
+            });
         }
     }, [initialValues, form]);
 
@@ -19,7 +31,7 @@ const EditJobModal = ({ open, onCancel, onOk, initialValues }) => {
             .validateFields()
             .then((values) => {
                 onOk({
-                    ...initialValues, // Use initialValues from props
+                    ...initialValues,
                     ...values
                 });
                 form.resetFields();
@@ -53,9 +65,27 @@ const EditJobModal = ({ open, onCancel, onOk, initialValues }) => {
                 >
                     <EmployerComboBox />
                 </Form.Item>
+                {/* Add Image Upload Field */}
+                <Form.Item
+                    name="image"
+                    label="Job Image"
+                    extra={initialValues?.image && (
+                        <div style={{ marginTop: 16 }}>
+                            <span>Current Image: </span>
+                            <img
+                                src={initialValues.image}
+                                alt="Current job"
+                                style={{ maxWidth: 100, maxHeight: 100 }}
+                            />
+                        </div>
+                    )}
+                >
+                    <AvatarUpload />
+                </Form.Item>
             </Form>
         </Modal>
     );
 };
 
 export default EditJobModal;
+

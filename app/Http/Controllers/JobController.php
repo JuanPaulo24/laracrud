@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Job;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
-
+use Illuminate\Support\Facades\File;
 class JobController extends Controller
 {
     /**
@@ -17,16 +17,22 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
-       $jobs = Job::with('employer')->latest();
+        // Start your query
+        $jobsQuery = Job::with('employer')->latest();
 
-        if ($request->query('only_trashed', false)) {
-            $jobs->onlyTrashed();
+        // If ?only_trashed=1, then only get soft-deleted jobs
+        if ($request->boolean('only_trashed')) {
+            $jobsQuery->onlyTrashed();
         }
 
+        // Finally, retrieve all matching jobs
+        $jobs = $jobsQuery->get();
+
         return response()->json([
-            'jobs' => $jobs->get()
+            'jobs' => $jobs
         ]);
     }
+
 
     public function restore($id)
     {
@@ -39,36 +45,41 @@ class JobController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store()
+    public function store(Request $request)
     {
         try {
             $validated = request()->validate([
                 'title' => ['required', 'min:3'],
                 'salary' => ['required', 'min:2'],
                 'employer_id' => ['required'],
-                'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,svg,webp', 'max:20000']
+                'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,svg,webp']
             ]);
 
-            $imagePath = null;
-            if (request()->hasFile('image')) {
-                $imagePath = request()->file('image')->store('jobs', 'public');
+            if ($request->has('image')) {
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension();
+
+                $filename = time() . '.' . $extension;
+
+                $path = 'uploads/jobs/';
+                $file->move($path, $filename);
             }
 
             $job = Job::create([
                 'title' => $validated['title'],
                 'salary' => $validated['salary'],
                 'employer_id' => $validated['employer_id'],
-                'image' => $imagePath
+                'image' => $path . $filename
             ]);
 
-            Mail::to('juan@gmail.com')->queue(          //instead of send we can use queue, and make sure you use php artisan queue work
-                new JobPosted($job)
-            );
+//            Mail::to('juan@gmail.com')->queue(          //instead of send we can use queue, and make sure you use php artisan queue work
+//                new JobPosted($job)
+//            );
 
-           // Mail::to('juan@gmail.com')->send(new JobPosted($job));
+            // Mail::to('juan@gmail.com')->send(new JobPosted($job));
 
             return response()->json([
                 'message' => 'Job created successfully',
@@ -91,7 +102,7 @@ class JobController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Job $job)
@@ -105,41 +116,50 @@ class JobController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Job $job)
+    public function update(Job $job, Request $request)
     {
         request()->validate([
-            'title'  => ['required', 'min:3'],
+            'title' => ['required', 'min:3'],
             'salary' => ['required'],
             'employer_id' => ['exists:employers,id'],
-//            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,svg,webp', 'max:20000']
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,svg,webp']
         ]);
 
-//        $imagePath = null;
-//        if (request()->hasFile('image')) {
-//            $imagePath = request()->file('image')->store('jobs', 'public');
-//        }
+        if ($request->has('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+
+            $filename = time() . '.' . $extension;
+
+            $path = 'uploads/jobs/';
+            $file->move($path, $filename);
+
+            if (File::exists($job->image)) {
+                File::delete($job->image);
+            }
+        }
 
         $job->update([
-            'title'  => request('title'),
+            'title' => request('title'),
             'salary' => request('salary'),
             'employer_id' => request('employer_id'),
-//            'image' => $imagePath
+            'image' => $path.$filename
         ]);
 
         return response()->json([
             'message' => 'Job updated successfully!',
-            'job'     => $job->load('employer')
+            'job' => $job->load('employer')
         ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return void
      */
 

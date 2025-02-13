@@ -54,13 +54,34 @@ export const useJobManager = () => {
     };
 
     // Update job
+// In JobManager.jsx, update the editJob function:
     const editJob = async (updatedJob) => {
         try {
-            await axios.put(`/api/jobs/${updatedJob.id}`, updatedJob);
-            await refetchJobs();  // Refresh list after edit
+            const formData = new FormData();
+            formData.append('_method', 'PUT'); // Laravel method spoofing
+            formData.append('title', updatedJob.title);
+            formData.append('salary', updatedJob.salary);
+            formData.append('employer_id', updatedJob.employer_id);
+
+
+            if (updatedJob.image && updatedJob.image.length > 0) {
+                const imageFile = updatedJob.image[0].originFileObj;
+                if (imageFile instanceof File) {
+                    formData.append('image', imageFile);
+                }
+            }
+
+            await axios.post(`/api/jobs/${updatedJob.id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            await refetchJobs();
             setEditingJob(null);
         } catch (error) {
             console.error("Error updating job:", error);
+            throw error; // Rethrow to handle in the modal
         }
     };
 

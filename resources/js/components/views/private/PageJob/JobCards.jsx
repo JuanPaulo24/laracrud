@@ -116,7 +116,7 @@ const JobCard = ({ job, onEdit, onDelete, onRestore }) => (
                         </PrimaryButton>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.10rem' }}>
                             <img
-                                src={`/storage/${job.image}`}
+                                src={`${job.image}`}
                                 alt="Job image"
                                 style={{
                                     width: '30px',

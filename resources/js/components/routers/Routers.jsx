@@ -1,20 +1,21 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Home from "../layouts/Home.jsx";
-import Contact from "@/components/views/public/PageContact/Contact.jsx";
-import Job from "../views/private/PageJob/Job.jsx"
-import MapShow from "../views/public/MapShow.jsx";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter as Router } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-export default function Routers() {
+import RouteList from "./RouteList";
+
+const queryClient = new QueryClient();
+
+const Routers = () => {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/jobs" element={<Job/>} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/map" element={<MapShow />} />
-            </Routes>
-        </Router>
+        <QueryClientProvider client={queryClient}>
+            <Router>
+                <RouteList />
+            </Router>
+        </QueryClientProvider>
     );
-}
+};
 
+export default Routers;
 
+createRoot(document.getElementById("root")).render(<Routers />);

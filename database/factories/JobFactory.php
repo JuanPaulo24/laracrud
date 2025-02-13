@@ -21,7 +21,7 @@ class JobFactory extends Factory
             'title' => $title,
             'employer_id' => Employer::factory(),
             'salary' => '₱' . number_format($this->faker->numberBetween(100, 100000)),
-            'image' => '/jobs/noImage.png', // Generate a static image path
+            'image' => 'uploads/jobs/noImage.png', // Generate a static image path
         ];
     }
 }
